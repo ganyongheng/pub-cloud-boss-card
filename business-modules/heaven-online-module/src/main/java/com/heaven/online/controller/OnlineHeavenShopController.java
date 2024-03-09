@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2024-03-09
  */
 @Controller
-@RequestMapping("/onlineHeavenShopDo")
+@RequestMapping("/heaven/onlineHeavenShopDo")
 public class OnlineHeavenShopController extends BaseController {
     @Autowired
     private OnlineHeavenShopServiceImpl onlineHeavenShopService;

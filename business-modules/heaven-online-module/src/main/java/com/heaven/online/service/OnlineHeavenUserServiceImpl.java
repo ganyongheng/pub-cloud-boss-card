@@ -34,5 +34,48 @@ import java.util.List;
 @Service
 public class OnlineHeavenUserServiceImpl extends ServiceImpl<OnlineHeavenUserMapper, OnlineHeavenUserDo> implements IOnlineHeavenUserService {
 
+    @Autowired
+    private RedisCache redisCache;
 
+    @Resource
+    private TokenProvider tokenProvider;
+
+    @Value("${short_token_redis_cache_time}")
+    private  Long short_token_redis_cache_time ;
+
+    public JSONObject refreshToken(String bearerToken) {
+        JSONObject jsonObject=new JSONObject();
+        User muser = redisCache.getCache(bearerToken,User.class);
+        if(muser==null){
+            //说明需要重新登录
+            log.info("redis的token已过期，请重新登录  ===实际传参传参{}",bearerToken);
+            return null;
+        }
+        //更换token
+        QueryWrapper<OnlineHeavenUserDo> qw=new QueryWrapper<>();
+        qw.eq("id", muser.getId());
+        OnlineHeavenUserDo user = getOne(qw);
+        if(user==null){
+            //不存在,需要重新登录
+            log.info("jwt的userid,查询不到用户id，请重新登录  ===实际传参传参{}",bearerToken);
+            return null;
+        }
+        Integer isBlack = user.getIsDelete();
+        if(isBlack!=null&&isBlack== OnlineConstants.deleteStats.delete){
+            //不存在,需要重新登录
+            log.info("jwt的userid,查询到用户id，用户已被拉黑{}",bearerToken);
+            return null;
+        }
+        //生成新的token,然后将旧的数据放回
+        String jwt = "BearerHeaven" + tokenProvider.createTokenNewSchool(muser);
+        redisCache.putCacheWithExpireTime(jwt,muser,short_token_redis_cache_time);
+        //删掉过期token
+        redisCache.deleteCache(bearerToken);
+        jsonObject.put("token",jwt);
+        jsonObject.put("user",user);
+        //##缓存一段时间,避免高并发重复请求,因为会出现并发请求拿新的token来换token情况,缓存30秒
+        String online_cache_jwt="heaven_cache_" + jwt;
+        redisCache.putCacheWithExpireTime(online_cache_jwt,jsonObject.toJSONString(),30);
+        return jsonObject;
+    }
 }

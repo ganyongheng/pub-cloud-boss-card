@@ -1,6 +1,7 @@
 package com.cn.auth.security;
 
 import com.cn.auth.config.AuthorityInterceptor;
+import com.cn.auth.config.HeavenAuthorityInterceptor;
 import com.cn.auth.config.OnlineAuthorityInterceptor;
 import com.cn.auth.config.SchoolAuthorityInterceptor;
 import com.cn.auth.config.jwt.TokenProvider;
@@ -56,6 +57,7 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
     public static final String[] excludeUrls_offline = {"/offline/userDo/login", "/offline/userDo/refreshToken", "/offline/goodFirstMeumDo/uploadImageTest" };
     public static final String[] excludeUrls_online = {"/online/userDo/login", "/online/userDo/refreshToken" , "/online/userDo/register","/online/userDo/sendEmail","/online/sysDataDictionaryDo/refreshCache","/online/userDo/forgetPwd","/online/userDo/sendEmailForgetPwd"};
     public static final String[] excludeUrls_school = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
+    public static final String[] excludeUrls_heaven = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -78,6 +80,12 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SchoolAuthorityInterceptor(tokenProvider,redisCache))
                 .excludePathPatterns(excludeUrls_school)
                 .addPathPatterns("/school/**");
+        /**
+         * 在线的纪念馆拦截器
+         */
+        registry.addInterceptor(new HeavenAuthorityInterceptor(tokenProvider,redisCache))
+                .excludePathPatterns(excludeUrls_heaven)
+                .addPathPatterns("/heaven/**");
 
 
 
