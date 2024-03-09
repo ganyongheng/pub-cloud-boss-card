@@ -1,16 +1,21 @@
 package rabb.heaven.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pub.core.common.OfflineStatusEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -38,11 +43,19 @@ public class OnlineHeavenShopDo extends Model<OnlineHeavenShopDo> {
      *  1 人 2 动物
      */
     private Integer type;
+    /**
+     *  0 不公开  1公开
+     */
+    private Integer isPublic;
+    /**
+     *  0 初始化  1 审核通过  -1审核不通过
+     */
+    private Integer isCheck;
 
     /**
      *  丈夫 妻子 父亲 母亲 哥哥
      */
-    private Integer roleType;
+    private String roleType;
 
     /**
      * 是否亲人  1是  0 否
@@ -88,6 +101,11 @@ public class OnlineHeavenShopDo extends Model<OnlineHeavenShopDo> {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
+
+
+    @TableField(exist = false)
+    private List<OnlineHeavenShopDetailDo> listDetail;
+
 
 
 }
