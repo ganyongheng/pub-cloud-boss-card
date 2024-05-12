@@ -18,6 +18,7 @@
         <module>ocrimage</module>
         <module>heaven-online-module</module>
         <module>heaven-offline-module</module>
+        <module>part-time-job</module>
     </modules>
 <dependencies>
     <!-- springboot web -->
