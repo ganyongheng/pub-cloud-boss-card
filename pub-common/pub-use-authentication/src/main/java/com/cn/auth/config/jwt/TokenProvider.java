@@ -20,6 +20,8 @@ public class TokenProvider {
 
     public static final String AUTHORIZATION_HEADER_HEAVEN = "Authorization_HEAVEN";
 
+    public static final String AUTHORIZATION_WORKONLINE = "Authorization_WORKONLINE";
+
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";

@@ -1,6 +1,6 @@
 package work.mapper;
 
-import org.mapstruct.Mapper;
+import org.apache.ibatis.annotations.Mapper;
 import work.entity.OnlineWorkDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

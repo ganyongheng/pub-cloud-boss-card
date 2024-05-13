@@ -85,5 +85,9 @@ public class OnlineUserDo extends Model<OnlineUserDo> {
 
     private Date updateTime;
 
+    /**
+     * 认证状态 0 初始化  -1 不通过  9 通过
+     */
+    private Integer identtityStatus;
 
 }

@@ -1,9 +1,6 @@
 package com.cn.auth.security;
 
-import com.cn.auth.config.AuthorityInterceptor;
-import com.cn.auth.config.HeavenAuthorityInterceptor;
-import com.cn.auth.config.OnlineAuthorityInterceptor;
-import com.cn.auth.config.SchoolAuthorityInterceptor;
+import com.cn.auth.config.*;
 import com.cn.auth.config.jwt.TokenProvider;
 import com.pub.redis.service.RedisService;
 import com.pub.redis.util.RedisCache;
@@ -58,6 +55,7 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
     public static final String[] excludeUrls_online = {"/online/userDo/login", "/online/userDo/refreshToken" , "/online/userDo/register","/online/userDo/sendEmail","/online/sysDataDictionaryDo/refreshCache","/online/userDo/forgetPwd","/online/userDo/sendEmailForgetPwd"};
     public static final String[] excludeUrls_school = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
     public static final String[] excludeUrls_heaven = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
+    public static final String[] excludeUrls_workonline = {"/school/tripAreaDo/endTrips"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -86,6 +84,12 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new HeavenAuthorityInterceptor(tokenProvider,redisCache))
                 .excludePathPatterns(excludeUrls_heaven)
                 .addPathPatterns("/heaven/**");
+        /**
+         * 兼职小程序
+         */
+        registry.addInterceptor(new WorkOnlineAuthorityInterceptor(tokenProvider,redisCache))
+                .excludePathPatterns(excludeUrls_workonline)
+                .addPathPatterns("/onlinework/**");
 
 
 
