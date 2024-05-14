@@ -8,7 +8,7 @@ import com.pub.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import work.entity.SysDataDictionaryDo;
+import rabb.workjob.entity.SysDataDictionaryDo;
 import work.service.impl.SysDataDictionaryServiceImpl;
 
 import java.util.Date;

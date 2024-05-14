@@ -1,10 +1,10 @@
 package work.service.impl;
 
-import work.entity.OnlineResumeDo;
-import work.mapper.OnlineResumeMapper;
-import work.service.IOnlineResumeService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import rabb.workjob.entity.OnlineResumeDo;
+import rabb.workjob.mapper.OnlineResumeMapper;
 
 /**
  * <p>
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-05-12
  */
 @Service
-public class OnlineResumeServiceImpl extends ServiceImpl<OnlineResumeMapper, OnlineResumeDo> implements IOnlineResumeService {
+public class OnlineResumeServiceImpl extends ServiceImpl<OnlineResumeMapper, OnlineResumeDo> implements IService<OnlineResumeDo> {
 
 }

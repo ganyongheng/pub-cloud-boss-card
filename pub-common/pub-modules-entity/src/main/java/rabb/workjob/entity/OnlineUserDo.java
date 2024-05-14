@@ -1,13 +1,12 @@
-package work.entity;
+package rabb.workjob.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -55,7 +54,7 @@ public class OnlineUserDo extends Model<OnlineUserDo> {
     private String phone;
 
     /**
-     * 1 企业  2 个人  
+     * 1 企业  2 个人  0 未实名认证
      */
     private Integer roleId;
 
@@ -89,5 +88,16 @@ public class OnlineUserDo extends Model<OnlineUserDo> {
      * 认证状态 0 初始化  -1 不通过  9 通过
      */
     private Integer identtityStatus;
+
+    /**
+     * 短信验证码
+     */
+    @TableField(exist = false)
+    private String phoneCode;
+
+    /**
+     * 身份证号码
+     */
+    private  String identityNumber;
 
 }

@@ -1,13 +1,12 @@
-package work.entity;
+package rabb.workjob.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -27,16 +26,11 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private LocalDateTime createTime;
-
-    private Date startTime;
-
-    private Date endTime;
-
+    private Date createTime;
     /**
-     * 1：兼职  2：全职 3：临时工 4钟点工 
+     * 兼职  全职  临时工 钟点工  逗号分隔
      */
-    private Integer workType;
+    private String workType;
 
     /**
      * 工作四级地址
@@ -51,7 +45,7 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
     /**
      * 薪资类型 1 月结  2日结
      */
-    private Integer salaryType;
+    private String salaryType;
 
     /**
      * 薪酬
@@ -99,7 +93,13 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
 
     private Date updateTime;
 
-    //0 初始化  1上线  -1下线
+    // 1上线  -1下线
     private Integer status;
 
+
+    // -1 不通过  9 通过  0 提交认证审核
+    private Integer identtityStatus;
+
+    @TableField(exist = false)
+    private String phoneCode;
 }

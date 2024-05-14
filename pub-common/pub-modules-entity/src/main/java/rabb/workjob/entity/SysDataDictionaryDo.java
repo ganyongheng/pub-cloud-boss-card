@@ -1,4 +1,4 @@
-package work.entity;
+package rabb.workjob.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -6,42 +6,39 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 个人简历
+ * 系统数据字典数据库
  * </p>
  *
  * @author ganyongheng
- * @since 2024-05-12
+ * @since 2023-08-01
  */
 @Data
-@TableName("online_resume")
-public class OnlineResumeDo extends Model<OnlineResumeDo> {
+@TableName("sys_data_dictionary")
+public class SysDataDictionaryDo extends Model<SysDataDictionaryDo> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer userId;
+    private String paramName;
+
+    private String paramKey;
+
+    private String paramValue;
+
+    private String paramDesc;
 
     /**
-     * 简历地址
+     * -1 删除 其它 未删除
      */
-    private String fileUrl;
+    private Integer status;
 
-    private Date updateTime;
-
-    private Date createTime;
-
-    /**
-     * 简历名称
-     */
-    private String resumeName;
+    private Date createDate;
 
 
 }

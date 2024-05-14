@@ -1,18 +1,19 @@
-package com.cn.school.util;
+package work.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cn.school.config.ConstantSmsUtils;
 import com.pub.core.utils.RandomUtilSendMsg;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.sms.v20210111.SmsClient;
+import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
+import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import com.tencentcloudapi.common.Credential;
-import com.tencentcloudapi.common.profile.ClientProfile;
-import com.tencentcloudapi.common.profile.HttpProfile;
-import com.tencentcloudapi.common.exception.TencentCloudSDKException;
-import com.tencentcloudapi.sms.v20210111.SmsClient;
-import com.tencentcloudapi.sms.v20210111.models.*;
+import work.config.ConstantSmsUtils;
+
 /**
  * 腾讯发送短信的工具类
  */

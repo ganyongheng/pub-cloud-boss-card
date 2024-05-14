@@ -1,5 +1,6 @@
 package work;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync // 启动异步调用
 @SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
+@MapperScan("rabb.workjob.mapper")
 public class PartTimeApplication {
 
     public static void main(String[] args) {

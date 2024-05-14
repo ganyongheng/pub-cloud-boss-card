@@ -1,4 +1,4 @@
-package com.cn.school.util;
+package com.pub.core.utils;
 
 import java.text.DecimalFormat;
 import java.util.Random;

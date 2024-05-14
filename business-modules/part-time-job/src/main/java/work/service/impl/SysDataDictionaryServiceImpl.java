@@ -9,8 +9,8 @@ import com.cn.auth.config.Constant;
 import com.pub.core.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import work.entity.SysDataDictionaryDo;
-import work.mapper.SysDataDictionaryMapper;
+import rabb.workjob.entity.SysDataDictionaryDo;
+import rabb.workjob.mapper.SysDataDictionaryMapper;
 
 import java.util.HashMap;
 import java.util.List;

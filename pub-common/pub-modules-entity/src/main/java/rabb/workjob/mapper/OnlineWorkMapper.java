@@ -1,8 +1,8 @@
-package work.mapper;
+package rabb.workjob.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import work.entity.OnlineWorkDo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import rabb.workjob.entity.OnlineWorkDo;
 
 /**
  * <p>

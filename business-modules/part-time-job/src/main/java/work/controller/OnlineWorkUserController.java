@@ -1,9 +1,23 @@
 package work.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.cn.auth.config.TimingLog;
+import com.pub.core.util.controller.BaseController;
+import com.pub.core.util.domain.AjaxResult;
+import com.pub.core.util.page.TableDataInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import rabb.workjob.entity.OnlineWorkDo;
+import rabb.workjob.entity.OnlineWorkUserDo;
+import work.service.impl.OnlineWorkUserServiceImpl;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,7 +29,41 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/onlinework/onlineWorkUserDo")
-public class OnlineWorkUserController {
+public class OnlineWorkUserController extends BaseController {
 
+    private OnlineWorkUserServiceImpl onlineWorkUserService;
+
+    /**
+     * 投递简历工作
+     */
+    @TimingLog
+    @RequestMapping(value = "/submitReleaseWork", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult submitReleaseWork(@RequestBody OnlineWorkUserDo onlineWorkUserDo){
+        try{
+            onlineWorkUserService.submitReleaseWork(onlineWorkUserDo);
+            return AjaxResult.success();
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取我投递的工作
+     */
+    @TimingLog
+    @RequestMapping(value = "/getMySubmitWorkList", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult getMySubmitWorkList(@RequestBody JSONObject req){
+        try{
+            List<OnlineWorkDo> pageList =  onlineWorkUserService.getMySubmitWorkList(req);
+            TableDataInfo dataTable = getDataTable(pageList);
+            return AjaxResult.success(dataTable);
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
+        }
+    }
 }
 

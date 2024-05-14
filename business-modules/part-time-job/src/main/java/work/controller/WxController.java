@@ -20,10 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import rabb.workjob.entity.OnlineUserDo;
 import work.config.FilePathOnlineConfig;
 import work.config.WorkConstantDto;
 import work.config.WxPayConfig;
-import work.entity.OnlineUserDo;
 import work.service.impl.OnlineUserServiceImpl;
 import work.service.impl.SysDataDictionaryServiceImpl;
 
@@ -31,8 +31,6 @@ import javax.annotation.Resource;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/onlinework/wx")
@@ -67,6 +65,8 @@ public class WxController extends BaseController {
 
     @Autowired
     private FilePathOnlineConfig filePathOnlineConfig;
+
+
 
     /**
      * 扫码成功回调
@@ -197,6 +197,7 @@ public class WxController extends BaseController {
         }
         return baseUrl+"/"+originalFilename;
     }
+
 
 
 

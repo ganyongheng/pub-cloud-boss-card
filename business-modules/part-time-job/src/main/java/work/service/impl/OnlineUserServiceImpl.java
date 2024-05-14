@@ -2,17 +2,18 @@ package work.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.cn.auth.config.jwt.TokenProvider;
 import com.cn.auth.entity.User;
 import com.pub.core.common.OnlineConstants;
+import com.pub.core.exception.BusinessException;
 import com.pub.redis.util.RedisCache;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import rabb.workjob.entity.OnlineUserDo;
+import rabb.workjob.mapper.OnlineUserMapper;
 import work.config.WorkConstantDto;
-import work.entity.OnlineUserDo;
-import work.mapper.OnlineUserMapper;
-import work.service.IOnlineUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ import javax.annotation.Resource;
  */
 @Log4j2
 @Service
-public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineUserDo> implements IOnlineUserService {
+public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineUserDo> implements IService<OnlineUserDo> {
 
     @Autowired
     private RedisCache redisCache;
@@ -74,13 +75,36 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
         return jsonObject;
     }
 
-    public void indentityPerson(OnlineUserDo onlineUserDo) {
+    public void indentityPerson(OnlineUserDo onlineUserDo) throws  Exception{
+        /**
+         * 校验身份证是否被使用过
+         */
+        QueryWrapper<OnlineUserDo> wq_one=new QueryWrapper<>();
+        wq_one.eq("identity_number",onlineUserDo.getIdentityNumber());
+        wq_one.ne("id",onlineUserDo.getId());
+        OnlineUserDo one = getOne(wq_one);
+        if(one!=null){
+           throw new BusinessException("身份证已被认证！");
+        }
         onlineUserDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
+        onlineUserDo.setRoleId(WorkConstantDto.RoleType.person);
         updateById(onlineUserDo);
     }
 
-    public void indentityCompany(OnlineUserDo onlineUserDo) {
+    public void indentityCompany(OnlineUserDo onlineUserDo) throws Exception{
+        /**
+         * 校验公司是否被注册过
+         */
+        QueryWrapper<OnlineUserDo> wq_one=new QueryWrapper<>();
+        wq_one.eq("business_code",onlineUserDo.getBusinessCode());
+        wq_one.ne("id",onlineUserDo.getId());
+        OnlineUserDo one = getOne(wq_one);
+        if(one!=null){
+            throw new BusinessException("企业已被注册过！");
+        }
         onlineUserDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
+        onlineUserDo.setRoleId(WorkConstantDto.RoleType.company);
         updateById(onlineUserDo);
     }
+
 }

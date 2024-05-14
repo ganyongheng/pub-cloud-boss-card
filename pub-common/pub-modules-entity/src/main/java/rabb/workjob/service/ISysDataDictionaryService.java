@@ -1,7 +1,7 @@
-package work.service;
+package rabb.workjob.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import work.entity.SysDataDictionaryDo;
+import rabb.workjob.entity.SysDataDictionaryDo;
 
 /**
  * <p>

@@ -1,7 +1,7 @@
-package work.service;
+package rabb.workjob.service;
 
-import work.entity.OnlineWorkDo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import rabb.workjob.entity.OnlineWorkDo;
 
 /**
  * <p>

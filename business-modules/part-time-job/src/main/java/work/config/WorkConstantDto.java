@@ -34,6 +34,28 @@ public class WorkConstantDto {
         public static final Integer submit = 1;
         public static final Integer initialize = 0;
     }
+    /**
+     * 发布状态 1上线  -1下线
+     */
+    public interface WorkStatus{
+        public static final Integer yes = 1;
+        public static final Integer no = -1;
+    }
+    /**
+     * 认证状态   -1 不通过  9 通过  0 提交认证审核
+     */
+    public interface WorkIdenttityStatus{
+        public static final Integer yes = 9;
+        public static final Integer no = -1;
+        public static final Integer submit = 0;
+    }
+    /**
+     * 热门   1热门
+     */
+    public interface isHot{
+        public static final Integer yes = 1;
+        public static final Integer no = 0;
+    }
 
 
 
