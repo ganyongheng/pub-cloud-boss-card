@@ -1,0 +1,50 @@
+#spring:
+#  profiles:
+#    #打包时查看config.sh文件的JAVA_OPTS属性active激活对应的配置文件
+#    active:
+#      dev
+#    #需要引入的配置文件
+#    include:
+#      druid-dev
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  application:
+    name: workonline-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.1.1.232:8848
+        #server-addr: http://127.0.0.1:8848
+        #server-addr: http://111.230.26.139:8848
+        namespace: workonline
+      config:
+        server-addr: http://10.1.1.232:8848  # nacos地址
+        #server-addr: http://127.0.0.1:8848  # nacos地址
+        #server-addr: http://111.230.26.139:8848
+        file-extension: yaml   #nacos后缀
+        namespace: workonline
+        # 支持多个共享 Data Id 的配置，优先级小于extension-configs,自定义 Data Id 配置 属性是个集合，内部由 Config POJO 组成。Config 有 3 个属性，分别是 dataId, group 以及 refresh
+        # 共享配置
+        shared-configs:
+          - xhx-common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  profiles:
+    #    include: druid-dev
+    active: dev
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  type-aliases-package: com.xhx.basicdata.**.entity
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+
+

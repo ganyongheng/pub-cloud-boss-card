@@ -8,10 +8,10 @@ import com.cn.auth.util.UserContext;
 import com.pub.core.util.controller.BaseController;
 import com.pub.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import rabb.workjob.dto.WorkConstantDto;
 import rabb.workjob.entity.OnlineUserDo;
 import rabb.workjob.entity.OnlineWorkDo;
 import rabb.workjob.mapper.OnlineWorkMapper;
-import work.config.WorkConstantDto;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

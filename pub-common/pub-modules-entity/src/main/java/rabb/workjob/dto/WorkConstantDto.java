@@ -1,4 +1,4 @@
-package work.config;
+package rabb.workjob.dto;
 
 public class WorkConstantDto {
 
