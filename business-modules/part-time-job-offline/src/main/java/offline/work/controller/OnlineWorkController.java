@@ -15,7 +15,7 @@ import java.util.List;
  * @since 2024-05-12
  */
 @Controller
-@RequestMapping("/onlinework/onlineWorkDo")
+@RequestMapping("/offlinework/onlineWorkDo")
 public class OnlineWorkController extends BaseController {
 
 }

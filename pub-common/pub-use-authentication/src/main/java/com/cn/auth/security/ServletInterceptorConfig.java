@@ -55,7 +55,8 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
     public static final String[] excludeUrls_online = {"/online/userDo/login", "/online/userDo/refreshToken" , "/online/userDo/register","/online/userDo/sendEmail","/online/sysDataDictionaryDo/refreshCache","/online/userDo/forgetPwd","/online/userDo/sendEmailForgetPwd"};
     public static final String[] excludeUrls_school = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
     public static final String[] excludeUrls_heaven = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
-    public static final String[] excludeUrls_workonline = {"/school/tripAreaDo/endTrips"};
+    public static final String[] excludeUrls_workonline = {"/onlinework/wx/*"};
+    public static final String[] excludeUrls_workoffline = {"/onlinework/wx/endTrips"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -90,6 +91,12 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new WorkOnlineAuthorityInterceptor(tokenProvider,redisCache))
                 .excludePathPatterns(excludeUrls_workonline)
                 .addPathPatterns("/onlinework/**");
+        /**
+         * 兼职小程序后台系统
+         */
+        registry.addInterceptor(new WorkOfflineAuthorityInterceptor(tokenProvider,redisCache))
+                .excludePathPatterns(excludeUrls_workoffline)
+                .addPathPatterns("/offlinework/**");
 
 
 

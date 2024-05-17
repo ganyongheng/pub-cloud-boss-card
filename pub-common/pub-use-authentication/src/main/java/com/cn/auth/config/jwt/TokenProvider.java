@@ -17,6 +17,7 @@ public class TokenProvider {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     public static final String AUTHORIZATION_HEADER_ONLINE = "Authorization_Online";
+    public static final String AUTHORIZATION_HEADER_OFFLINE = "Authorization_Offline";
 
     public static final String AUTHORIZATION_HEADER_HEAVEN = "Authorization_HEAVEN";
 

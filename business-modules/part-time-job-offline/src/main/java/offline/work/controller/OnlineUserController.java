@@ -31,8 +31,10 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2024-05-12
  */
 @Controller
-@RequestMapping("/onlinework/onlineUserDo")
+@RequestMapping("/offlinework/onlineUserDo")
 public class OnlineUserController extends BaseController {
+
+
 
 }
 
