@@ -1,6 +1,7 @@
 package work.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pub.core.util.domain.AjaxResult;
@@ -43,12 +44,57 @@ public class SysDataDictionaryController {
      * 获取退费规则的配置
      * @return
      */
-    @RequestMapping(value = "/getRefundsMsg", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAddressThird11", method = RequestMethod.GET)
     @ResponseBody
-    public AjaxResult getRefundsMsg() {
+    public AjaxResult getAddressThirdTest() {
         try{
-            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("refunds_notice_msg", "refunds_notice_msg");
-            return AjaxResult.success(sysBaseParam,"成功");
+            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third", "address_third");
+            JSONArray jsonObject = JSONArray.parseArray(sysBaseParam);
+            for (Object o : jsonObject) {
+                JSONObject js= (JSONObject) o;
+                String name = js.getString("name");
+                if(StringUtils.isNotBlank(name)){
+                    js.put("text",name);
+                    js.put("value",name);
+                    JSONArray city = js.getJSONArray("city");
+                    if(city!=null&& !city.isEmpty()){
+                        js.put("children",city);
+                        js.remove("city");
+                        js.remove("name");
+                        for (Object object : city) {
+                            JSONObject js_object= (JSONObject) object;
+                            String name_js = js_object.getString("name");
+                            js_object.put("text",name_js);
+                            js_object.put("value",name_js);
+                            JSONArray area = js_object.getJSONArray("area");
+                            js_object.put("children",area);
+                            js_object.remove("area");
+                            js_object.remove("name");
+                        }
+                    }
+
+                }
+
+
+            }
+            System.out.println(jsonObject.toJSONString());
+            return AjaxResult.success(jsonObject.toJSONString());
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error();
+        }
+    }
+    /**
+     * 获取退费规则的配置
+     * @return
+     */
+    @RequestMapping(value = "/getAddressThird", method = RequestMethod.GET)
+    @ResponseBody
+    public AjaxResult getAddressThird() {
+        try{
+            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third", "address_third");
+            JSONArray jsonObject = JSONArray.parseArray(sysBaseParam);
+            return AjaxResult.success(jsonObject);
         }catch (Exception e){
             e.printStackTrace();
             return AjaxResult.error();

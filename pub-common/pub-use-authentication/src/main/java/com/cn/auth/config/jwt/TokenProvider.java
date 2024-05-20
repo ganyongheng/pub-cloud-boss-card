@@ -74,7 +74,7 @@ public class TokenProvider {
         /**
          * 10分钟
          */
-        Date validity = new Date(now + 1000*60*10);
+        Date validity = new Date(now + 1000*60*10*60);
 
 
         return Jwts.builder()

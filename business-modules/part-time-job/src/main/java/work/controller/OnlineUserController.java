@@ -56,7 +56,7 @@ public class OnlineUserController extends BaseController {
     @ResponseBody
     public AjaxResult refreshToken(){
         HttpServletRequest request = getRequest();
-        String bearerToken = request.getHeader(TokenProvider.AUTHORIZATION_HEADER_ONLINE);
+        String bearerToken = request.getHeader(TokenProvider.AUTHORIZATION_WORKONLINE);
         if (!bearerToken.startsWith("BearerWorkOnline")) {
             return AjaxResult.error(" token的格式不正确 !");
         }
