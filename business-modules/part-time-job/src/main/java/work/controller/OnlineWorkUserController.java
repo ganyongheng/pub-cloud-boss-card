@@ -7,6 +7,7 @@ import com.pub.core.util.controller.BaseController;
 import com.pub.core.util.domain.AjaxResult;
 import com.pub.core.util.page.TableDataInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,6 +32,7 @@ import java.util.List;
 @RequestMapping("/onlinework/onlineWorkUserDo")
 public class OnlineWorkUserController extends BaseController {
 
+    @Autowired
     private OnlineWorkUserServiceImpl onlineWorkUserService;
 
     /**
@@ -58,6 +60,22 @@ public class OnlineWorkUserController extends BaseController {
     public AjaxResult getMySubmitWorkList(@RequestBody JSONObject req){
         try{
             List<OnlineWorkDo> pageList =  onlineWorkUserService.getMySubmitWorkList(req);
+            TableDataInfo dataTable = getDataTable(pageList);
+            return AjaxResult.success(dataTable);
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+    /**
+     * 获取投递我的
+     */
+    @TimingLog
+    @RequestMapping(value = "/getWorkSubmitUserList", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult getWorkSubmitUserList(@RequestBody JSONObject req){
+        try{
+            List<OnlineWorkDo> pageList =  onlineWorkUserService.getWorkSubmitUserList(req);
             TableDataInfo dataTable = getDataTable(pageList);
             return AjaxResult.success(dataTable);
         }catch (Exception e){

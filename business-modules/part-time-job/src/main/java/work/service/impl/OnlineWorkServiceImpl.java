@@ -57,6 +57,12 @@ public class OnlineWorkServiceImpl extends ServiceImpl<OnlineWorkMapper, OnlineW
     public List<OnlineWorkDo> getPublicReleaseWorkList(OnlineWorkDo onlineWorkDo) {
         QueryWrapper<OnlineWorkDo> wq=new QueryWrapper<>();
         Integer isHot = onlineWorkDo.getIsHot();
+        String title = onlineWorkDo.getTitle();
+        if(StringUtils.isNotBlank(title)){
+            wq.and(wrapper -> {
+                wrapper.like("work_name",title).or().like("title",title);
+            });
+        }
         if(isHot!=null){
             wq.eq("is_hot",isHot);
         }
@@ -79,6 +85,10 @@ public class OnlineWorkServiceImpl extends ServiceImpl<OnlineWorkMapper, OnlineW
     }
 
     public void editReleaseWork(OnlineWorkDo onlineWorkDo) {
+        updateById(onlineWorkDo);
+    }
+
+    public void upOrDownWork(OnlineWorkDo onlineWorkDo) {
         updateById(onlineWorkDo);
     }
 }

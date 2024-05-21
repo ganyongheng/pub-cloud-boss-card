@@ -85,7 +85,7 @@ public class OnlineUserDo extends Model<OnlineUserDo> {
     private Date updateTime;
 
     /**
-     * 认证状态 0 初始化  -1 不通过  9 通过  1 提交认证审核
+     * 认证状态 0 初始化  -1 不通过  9 通过  1 提交个人认证审核  2 提交企业
      */
     private Integer identtityStatus;
 
@@ -105,4 +105,6 @@ public class OnlineUserDo extends Model<OnlineUserDo> {
      */
     private Integer phoneAble;
 
+    @TableField(exist = false)
+    private String identtityMsg;
 }

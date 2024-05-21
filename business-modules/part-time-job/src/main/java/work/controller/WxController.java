@@ -133,6 +133,10 @@ public class WxController extends BaseController {
             userDo.setRoleId(WorkConstantDto.RoleType.no);
             userDo.setCreateTime(new Date());
             userDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.initialize);
+            /**
+             * 未绑定手机
+             */
+            userDo.setPhoneAble(WorkConstantDto.phoneAble.no);
             onlineUserServiceImpl.save(userDo);
             token = createToken(userDo);
         }else{

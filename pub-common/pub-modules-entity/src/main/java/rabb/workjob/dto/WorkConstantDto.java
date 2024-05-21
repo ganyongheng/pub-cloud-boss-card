@@ -32,6 +32,7 @@ public class WorkConstantDto {
         public static final Integer yes = 9;
         public static final Integer no = -1;
         public static final Integer submit = 1;
+        public static final Integer submitCompany = 2;
         public static final Integer initialize = 0;
     }
     /**
@@ -53,6 +54,13 @@ public class WorkConstantDto {
      * 热门   1热门
      */
     public interface isHot{
+        public static final Integer yes = 1;
+        public static final Integer no = 0;
+    }
+    /**
+     * 0 未绑定  1 已绑定
+     */
+    public interface phoneAble{
         public static final Integer yes = 1;
         public static final Integer no = 0;
     }

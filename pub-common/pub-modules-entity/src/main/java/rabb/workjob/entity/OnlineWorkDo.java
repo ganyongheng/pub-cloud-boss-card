@@ -57,10 +57,6 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
      */
     private String workName;
 
-    /**
-     * 0 初始化  1审核通过 -1 审核不通过
-     */
-    private Integer checkStatus;
 
     /**
      * 1热门
@@ -102,4 +98,9 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
 
     @TableField(exist = false)
     private String phoneCode;
+
+    /**
+     * 审核不通过原因描述
+     */
+    private String identtityMsg;
 }

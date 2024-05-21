@@ -65,7 +65,7 @@ public class OnlineUserController extends BaseController {
     @ResponseBody
     public AjaxResult identityWorkList(@RequestBody OnlineUserDo onlineUserDo){
         try{
-            onlineUserService.identityWorkList(onlineUserDo);
+            onlineUserService.identityOnlineUser(onlineUserDo);
             return AjaxResult.success();
         }catch (Exception e){
             e.printStackTrace();

@@ -3,8 +3,6 @@ package work.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cn.auth.config.TimingLog;
-import com.cn.auth.entity.User;
-import com.cn.auth.util.UserContext;
 import com.pub.core.util.controller.BaseController;
 import com.pub.core.util.domain.AjaxResult;
 import com.pub.core.util.page.TableDataInfo;
@@ -15,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 import rabb.workjob.entity.OnlineWorkDo;
-import work.service.impl.OnlineUserServiceImpl;
 import work.service.impl.OnlineWorkServiceImpl;
-import work.service.impl.OnlineWorkUserServiceImpl;
 
 import java.util.List;
 
@@ -60,6 +56,22 @@ public class OnlineWorkController extends BaseController {
             }else{
                 return AjaxResult.error("验证码错误！");
             }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+    /**
+     * 上线或者下线工作
+     */
+    @TimingLog
+    @RequestMapping(value = "/upOrDownWork", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult upOrDownWork(@RequestBody OnlineWorkDo onlineWorkDo){
+        try{
+            onlineWorkService.upOrDownWork(onlineWorkDo);
+            return AjaxResult.success();
 
         }catch (Exception e){
             e.printStackTrace();

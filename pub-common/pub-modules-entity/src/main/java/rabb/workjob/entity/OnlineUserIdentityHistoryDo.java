@@ -69,12 +69,22 @@ public class OnlineUserIdentityHistoryDo extends Model<OnlineUserIdentityHistory
     /**
      * 认证状态 -1 不通过  9 通过  1 提交认证审核  2 提交企业认证
      */
-    private String identtityStatus;
+    private Integer identtityStatus;
 
     /**
      * 身份证号码
      */
     private String identityNumber;
+
+
+    private Integer userId;
+
+    private String phone;
+
+    /**
+     * 认证不通过原因
+     */
+    private String identtityMsg;
 
 
 }

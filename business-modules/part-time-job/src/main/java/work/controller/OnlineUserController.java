@@ -177,6 +177,31 @@ public class OnlineUserController extends BaseController {
             return AjaxResult.error(e.getMessage());
         }
     }
+    /**
+     * 绑定手机
+     */
+    @TimingLog
+    @RequestMapping(value = "/updatePhoneAble", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult updatePhoneAble(@RequestBody OnlineUserDo onlineUserDo){
+        try{
+            /**
+             * 校验短信验证码
+             */
+            String phone = onlineUserDo.getPhone();
+            String phoneCode = onlineUserDo.getPhoneCode();
+            String stringCache = redisCache.getStringCache(phone);
+            if(StringUtils.isNotBlank(stringCache)&&stringCache.equals(phoneCode)){
+                onlineUserServiceImpl.updatePhoneAble(onlineUserDo);
+                return AjaxResult.success();
+            }else{
+                return AjaxResult.error("验证码错误！");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return AjaxResult.error(e.getMessage());
+        }
+    }
 
 }
 

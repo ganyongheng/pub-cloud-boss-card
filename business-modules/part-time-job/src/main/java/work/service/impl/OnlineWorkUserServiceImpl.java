@@ -10,6 +10,7 @@ import com.pub.core.util.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import rabb.workjob.dto.WorkConstantDto;
 import rabb.workjob.entity.OnlineResumeDo;
 import rabb.workjob.entity.OnlineUserDo;
 import rabb.workjob.entity.OnlineWorkDo;
@@ -43,12 +44,16 @@ public class OnlineWorkUserServiceImpl extends ServiceImpl<OnlineWorkUserMapper,
         User currentUser = UserContext.getCurrentUser();
         Integer id = currentUser.getId();
         OnlineUserDo byId = onlineUserService.getById(id);
-        QueryWrapper<OnlineResumeDo> wq=new QueryWrapper<>();
+        Integer phoneAble = byId.getPhoneAble();
+        if(WorkConstantDto.phoneAble.no==phoneAble){
+            throw  new BusinessException("请绑定手机号！");
+        }
+       /* QueryWrapper<OnlineResumeDo> wq=new QueryWrapper<>();
         wq.eq("user_id",byId.getId());
         OnlineResumeDo onlineResumeDo = onlineResumeServiceImpl.getOne(wq);
         if(onlineResumeDo==null){
             throw  new BusinessException("请完善个人简历！");
-        }
+        }*/
         QueryWrapper<OnlineWorkUserDo> wq_workuser=new QueryWrapper<>();
         wq_workuser.eq("user_id",byId.getId());
         wq_workuser.eq("work_id",onlineWorkUserDo.getWorkId());
@@ -60,7 +65,7 @@ public class OnlineWorkUserServiceImpl extends ServiceImpl<OnlineWorkUserMapper,
         onlineWorkUserDo.setUserId(byId.getId());
         onlineWorkUserDo.setUserName(byId.getName());
         onlineWorkUserDo.setPhone(byId.getPhone());
-        onlineWorkUserDo.setResumeId(onlineResumeDo.getId());
+        /*onlineWorkUserDo.setResumeId(onlineResumeDo.getId());*/
         save(onlineWorkUserDo);
     }
 
@@ -70,6 +75,21 @@ public class OnlineWorkUserServiceImpl extends ServiceImpl<OnlineWorkUserMapper,
         Integer id = currentUser.getId();
         QueryWrapper<OnlineWorkUserDo> wq_workuser=new QueryWrapper<>();
         wq_workuser.eq("user_id",id);
+        wq_workuser.orderByDesc("id");
+        BaseController.startPage();
+        List<OnlineWorkUserDo> list = list(wq_workuser);
+        for (OnlineWorkUserDo onlineWorkUserDo : list) {
+            Integer workId = onlineWorkUserDo.getWorkId();
+            OnlineWorkDo byId = onlineWorkServiceImpl.getById(workId);
+            listRtn.add(byId);
+        }
+        return listRtn;
+    }
+
+    public List<OnlineWorkDo> getWorkSubmitUserList(JSONObject req) {
+        List<OnlineWorkDo> listRtn=new ArrayList<>();
+        QueryWrapper<OnlineWorkUserDo> wq_workuser=new QueryWrapper<>();
+        wq_workuser.eq("work_id",req.getInteger("workId"));
         wq_workuser.orderByDesc("id");
         BaseController.startPage();
         List<OnlineWorkUserDo> list = list(wq_workuser);

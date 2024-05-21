@@ -1,23 +1,30 @@
 package work.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cn.auth.config.jwt.TokenProvider;
 import com.cn.auth.entity.User;
+import com.cn.auth.util.UserContext;
 import com.pub.core.common.OnlineConstants;
 import com.pub.core.exception.BusinessException;
+import com.pub.core.util.domain.AjaxResult;
 import com.pub.redis.util.RedisCache;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import rabb.workjob.dto.WorkConstantDto;
 import rabb.workjob.entity.OnlineUserDo;
+import rabb.workjob.entity.OnlineUserIdentityHistoryDo;
 import rabb.workjob.mapper.OnlineUserMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +40,9 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
 
     @Autowired
     private RedisCache redisCache;
+
+    @Autowired
+    private OnlineUserIdentityHistoryServiceImpl onlineUserIdentityHistoryServiceImpl;
 
     @Resource
     private TokenProvider tokenProvider;
@@ -76,6 +86,9 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
     }
 
     public void indentityPerson(OnlineUserDo onlineUserDo) throws  Exception{
+        User currentUser = UserContext.getCurrentUser();
+        Integer id = currentUser.getId();
+        onlineUserDo.setId(id);
         /**
          * 校验身份证是否被使用过
          */
@@ -86,12 +99,39 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
         if(one!=null){
            throw new BusinessException("身份证已被认证！");
         }
-        onlineUserDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
-        onlineUserDo.setRoleId(WorkConstantDto.RoleType.person);
-        updateById(onlineUserDo);
+        QueryWrapper<OnlineUserIdentityHistoryDo> wq_history=new QueryWrapper<>();
+        wq_history.eq("user_id",onlineUserDo.getId());
+        wq_history.eq("identtity_status",WorkConstantDto.IdenttityStatus.submitCompany);
+        List<OnlineUserIdentityHistoryDo> listOnlineUserIdentityHistoryDo = onlineUserIdentityHistoryServiceImpl.list(wq_history);
+        if(listOnlineUserIdentityHistoryDo!=null&& !listOnlineUserIdentityHistoryDo.isEmpty()){
+            throw new BusinessException("已提交企业认证审核中！");
+        }
+        OnlineUserDo onlineUserUpdate=new OnlineUserDo();
+        onlineUserUpdate.setId(onlineUserDo.getId());
+        onlineUserUpdate.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
+        updateById(onlineUserUpdate);
+        QueryWrapper<OnlineUserIdentityHistoryDo> wq_delete=new QueryWrapper<>();
+        wq_delete.eq("user_id",onlineUserDo.getId());
+        wq_delete.eq("identtity_status",WorkConstantDto.IdenttityStatus.submit);
+        onlineUserIdentityHistoryServiceImpl.remove(wq_delete);
+        OnlineUserIdentityHistoryDo onlineUserIdentityHistoryDo=new OnlineUserIdentityHistoryDo();
+        onlineUserIdentityHistoryDo.setIdentityName(onlineUserDo.getIdentityName());
+        onlineUserIdentityHistoryDo.setIdentityNumber(onlineUserDo.getIdentityNumber());
+        onlineUserIdentityHistoryDo.setPhone(onlineUserDo.getPhone());
+        onlineUserIdentityHistoryDo.setIdentityImageDownUrl(onlineUserDo.getIdentityImageDownUrl());
+        onlineUserIdentityHistoryDo.setIdentityImageUpUrl(onlineUserDo.getIdentityImageUpUrl());
+        onlineUserIdentityHistoryDo.setId(onlineUserDo.getId());
+        onlineUserIdentityHistoryDo.setCreateTime(new Date());
+        onlineUserIdentityHistoryDo.setUserId(onlineUserDo.getId());
+        onlineUserIdentityHistoryDo.setRoleId(WorkConstantDto.RoleType.person);
+        onlineUserIdentityHistoryDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
+        onlineUserIdentityHistoryServiceImpl.save(onlineUserIdentityHistoryDo);
     }
 
     public void indentityCompany(OnlineUserDo onlineUserDo) throws Exception{
+        User currentUser = UserContext.getCurrentUser();
+        Integer id = currentUser.getId();
+        onlineUserDo.setId(id);
         /**
          * 校验公司是否被注册过
          */
@@ -102,9 +142,45 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
         if(one!=null){
             throw new BusinessException("企业已被注册过！");
         }
-        onlineUserDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submit);
-        onlineUserDo.setRoleId(WorkConstantDto.RoleType.company);
-        updateById(onlineUserDo);
+        QueryWrapper<OnlineUserIdentityHistoryDo> wq_history=new QueryWrapper<>();
+        wq_history.eq("user_id",onlineUserDo.getId());
+        wq_history.eq("identtity_status",WorkConstantDto.IdenttityStatus.submit);
+        List<OnlineUserIdentityHistoryDo> listOnlineUserIdentityHistoryDo = onlineUserIdentityHistoryServiceImpl.list(wq_history);
+        if(listOnlineUserIdentityHistoryDo!=null&& !listOnlineUserIdentityHistoryDo.isEmpty()){
+            throw new BusinessException("已提交个人认证审核中！");
+        }
+        OnlineUserDo onlineUserUpdate=new OnlineUserDo();
+        onlineUserUpdate.setId(onlineUserDo.getId());
+        onlineUserUpdate.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submitCompany);
+        updateById(onlineUserUpdate);
+        QueryWrapper<OnlineUserIdentityHistoryDo> wq_delete=new QueryWrapper<>();
+        wq_delete.eq("user_id",onlineUserDo.getId());
+        wq_delete.eq("identtity_status",WorkConstantDto.IdenttityStatus.submitCompany);
+        onlineUserIdentityHistoryServiceImpl.remove(wq_delete);
+        OnlineUserIdentityHistoryDo onlineUserIdentityHistoryDo=new OnlineUserIdentityHistoryDo();
+        onlineUserIdentityHistoryDo.setBusinessCode(onlineUserDo.getBusinessCode());
+        onlineUserIdentityHistoryDo.setBusinessImageUrl(onlineUserDo.getBusinessImageUrl());
+        onlineUserIdentityHistoryDo.setCompanyName(onlineUserDo.getCompanyName());
+        onlineUserIdentityHistoryDo.setId(onlineUserDo.getId());
+        onlineUserIdentityHistoryDo.setCreateTime(new Date());
+        onlineUserIdentityHistoryDo.setPhone(onlineUserDo.getPhone());
+        onlineUserIdentityHistoryDo.setRoleId(WorkConstantDto.RoleType.company);
+        onlineUserIdentityHistoryDo.setIdenttityStatus(WorkConstantDto.IdenttityStatus.submitCompany);
+        onlineUserIdentityHistoryServiceImpl.save(onlineUserIdentityHistoryDo);
     }
 
+    public void updatePhoneAble(OnlineUserDo onlineUserDo) throws Exception{
+        User currentUser = UserContext.getCurrentUser();
+        Integer id = currentUser.getId();
+        QueryWrapper<OnlineUserDo> wq_one=new QueryWrapper<>();
+        wq_one.eq("phone",onlineUserDo.getPhone());
+        wq_one.ne("id",id);
+        OnlineUserDo one = getOne(wq_one);
+        if(one!=null){
+            throw new BusinessException("手机号已被绑定！");
+        }
+        onlineUserDo.setId(id);
+        onlineUserDo.setPhoneAble(WorkConstantDto.phoneAble.yes);
+        updateById(onlineUserDo);
+    }
 }
