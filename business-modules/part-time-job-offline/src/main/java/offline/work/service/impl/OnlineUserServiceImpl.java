@@ -9,6 +9,7 @@ import com.cn.auth.entity.User;
 import com.pub.core.common.OnlineConstants;
 import com.pub.core.exception.BusinessException;
 import com.pub.core.util.controller.BaseController;
+import com.pub.core.utils.StringUtils;
 import com.pub.redis.util.RedisCache;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,25 @@ public class OnlineUserServiceImpl extends ServiceImpl<OnlineUserMapper, OnlineU
     public List<OnlineUserDo> getOfflineOnlineUserList(OnlineUserDo onlineUserDo) {
         Integer identtityStatus = onlineUserDo.getIdenttityStatus();
         Integer roleId = onlineUserDo.getRoleId();
+        Integer phoneAble = onlineUserDo.getPhoneAble();
+        String phone = onlineUserDo.getPhone();
         QueryWrapper<OnlineUserDo> wq=new QueryWrapper<>();
-        wq.eq("identtity_status",identtityStatus);
-        wq.eq("role_id",roleId);
+        if(identtityStatus!=null){
+            wq.eq("identtity_status",identtityStatus);
+        }
+
+        if(StringUtils.isNotBlank(phone)){
+            wq.eq("phone",phone);
+        }
+
+        if(phoneAble!=null){
+            wq.eq("phone_able",phoneAble);
+        }
+
+        if(roleId!=null){
+            wq.eq("role_id",roleId);
+        }
+
         BaseController.startPage();
         List<OnlineUserDo> list = list(wq);
         return list;

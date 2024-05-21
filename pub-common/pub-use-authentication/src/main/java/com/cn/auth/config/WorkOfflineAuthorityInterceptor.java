@@ -73,7 +73,7 @@ public class WorkOfflineAuthorityInterceptor extends HandlerInterceptorAdapter {
             responseMessage(response, AjaxResult.error(ResultMessageConstants.B00011.message()));
             return false;
         }
-         String  jwt_check= jwt.substring(16, jwt.length());
+         String  jwt_check= jwt.substring(17, jwt.length());
         JSONObject jsonObject = this.tokenProvider.validateTokenNew(jwt_check);
         String code = jsonObject.getString("code");
         if(!Constant.Online.Jwt.sucess_code.equals(code)){

@@ -19,7 +19,7 @@ public class MybatisAutoCodeUtils {
 
         //需要生成的表
         String[] tables = new String[]{
-                "offline_menu","offline_role_id","offline_user"
+                "online_user_identity_history"
         };
         //数据库连接url
         //String url = "jdbc:mysql://10.1.1.120:3306/sass_tracking_history?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai";

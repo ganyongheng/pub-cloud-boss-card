@@ -28,6 +28,8 @@ public class SysDataDictionaryController {
     @Autowired
     private SysDataDictionaryServiceImpl sysDataDictionaryServiceImpl;
 
+    private JSONArray jsonObject_third;
+
     @RequestMapping(value = "/refreshCache", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult refreshCache() {
@@ -48,7 +50,7 @@ public class SysDataDictionaryController {
     @ResponseBody
     public AjaxResult getAddressThirdTest() {
         try{
-            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third", "address_third");
+            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third_test", "address_third_test");
             JSONArray jsonObject = JSONArray.parseArray(sysBaseParam);
             for (Object o : jsonObject) {
                 JSONObject js= (JSONObject) o;
@@ -67,15 +69,22 @@ public class SysDataDictionaryController {
                             js_object.put("text",name_js);
                             js_object.put("value",name_js);
                             JSONArray area = js_object.getJSONArray("area");
-                            js_object.put("children",area);
-                            js_object.remove("area");
+                            if(!area.isEmpty()){
+                                JSONArray jsonArray_tem=new JSONArray();
+                                for (Object o1 : area) {
+                                    JSONObject js_temp=new JSONObject();
+                                    js_temp.put("text",o1);
+                                    js_temp.put("value",o1);
+                                    jsonArray_tem.add(js_temp);
+                                }
+                                js_object.put("children",jsonArray_tem);
+                                js_object.remove("area");
+                            }
                             js_object.remove("name");
                         }
                     }
 
                 }
-
-
             }
             System.out.println(jsonObject.toJSONString());
             return AjaxResult.success(jsonObject.toJSONString());
@@ -92,9 +101,12 @@ public class SysDataDictionaryController {
     @ResponseBody
     public AjaxResult getAddressThird() {
         try{
-            String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third", "address_third");
-            JSONArray jsonObject = JSONArray.parseArray(sysBaseParam);
-            return AjaxResult.success(jsonObject);
+            if(jsonObject_third==null){
+                String sysBaseParam = sysDataDictionaryServiceImpl.getSysBaseParam("address_third", "address_third");
+                jsonObject_third = JSONArray.parseArray(sysBaseParam);
+            }
+
+            return AjaxResult.success(jsonObject_third);
         }catch (Exception e){
             e.printStackTrace();
             return AjaxResult.error();

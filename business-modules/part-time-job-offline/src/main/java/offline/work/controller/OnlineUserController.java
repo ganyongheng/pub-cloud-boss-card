@@ -38,6 +38,7 @@ import java.util.List;
 @RequestMapping("/offlinework/onlineUserDo")
 public class OnlineUserController extends BaseController {
 
+    @Autowired
     private OnlineUserServiceImpl onlineUserService;
 
     /**
