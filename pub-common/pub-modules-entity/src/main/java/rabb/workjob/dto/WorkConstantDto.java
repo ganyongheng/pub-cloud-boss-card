@@ -64,6 +64,13 @@ public class WorkConstantDto {
         public static final Integer yes = 1;
         public static final Integer no = 0;
     }
+    /**
+     * 0 未绑定  1 已绑定
+     */
+    public interface imageAble{
+        public static final Integer yes = 9;
+        public static final Integer no = -1;
+    }
 
 
 

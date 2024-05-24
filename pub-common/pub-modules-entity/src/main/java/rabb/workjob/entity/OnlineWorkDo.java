@@ -103,4 +103,10 @@ public class OnlineWorkDo extends Model<OnlineWorkDo> {
      * 审核不通过原因描述
      */
     private String identtityMsg;
+
+    /**
+     * 投递人数
+     */
+    @TableField(exist = false)
+    private long submitCount;
 }
