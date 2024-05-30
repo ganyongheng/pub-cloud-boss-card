@@ -89,6 +89,7 @@ public class OnlineWorkServiceImpl extends ServiceImpl<OnlineWorkMapper, OnlineW
         if(StringUtils.isNotBlank(workType)){
             wq.like("work_type",workType);
         }
+        wq.eq("status",WorkConstantDto.WorkStatus.yes);
         wq.orderByDesc("id");
         BaseController.startPage();
         List<OnlineWorkDo> list = list(wq);

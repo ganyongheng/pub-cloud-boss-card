@@ -33,8 +33,12 @@ public class OnlineWorkServiceImpl extends ServiceImpl<OnlineWorkMapper, OnlineW
         String phone = onlineWorkDo.getPhone();
         Integer identtityStatus = onlineWorkDo.getIdenttityStatus();
         QueryWrapper<OnlineWorkDo> wq=new QueryWrapper<>();
-        wq.eq("phone",phone);
-        wq.eq("identtity_status",identtityStatus);
+        if(StringUtils.isNotBlank(phone)){
+            wq.eq("phone",phone);
+        }
+        if(identtityStatus!=null){
+            wq.eq("identtity_status",identtityStatus);
+        }
         BaseController.startPage();
         List<OnlineWorkDo> list = list(wq);
         return list;

@@ -55,8 +55,8 @@ public class ServletInterceptorConfig implements WebMvcConfigurer {
     public static final String[] excludeUrls_online = {"/online/userDo/login", "/online/userDo/refreshToken" , "/online/userDo/register","/online/userDo/sendEmail","/online/sysDataDictionaryDo/refreshCache","/online/userDo/forgetPwd","/online/userDo/sendEmailForgetPwd"};
     public static final String[] excludeUrls_school = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
     public static final String[] excludeUrls_heaven = {"/school/tripAreaDo/endTrips","/school/tripAreaDo/gethotTrips","/school/tripAreaDo/findTrips","/school/tripAreaDo/startTrips","/school/wx/wxCallback", "/school/wx/wxPayNotify" ,"/school/wx/payCallBack" ,  "/school/userDo/refreshToken",  "/school/wx/getImageByte","/school/tripAreaDo/uploadImage"};
-    public static final String[] excludeUrls_workonline = {"/onlinework/wx/*"};
-    public static final String[] excludeUrls_workoffline = {"/offlinework/offlineUserDo/login"};
+    public static final String[] excludeUrls_workonline = {"/onlinework/wx/*","/onlinework/onlineUserDo/refreshToken"};
+    public static final String[] excludeUrls_workoffline = {"/offlinework/offlineUserDo/login","/offlinework/offlineUserDo/refreshToken"};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
